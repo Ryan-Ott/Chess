@@ -8,6 +8,9 @@ namespace Chessgame
 {
     class ChessGame
     {
+        public string deadWhite = "Conquered White Pieces: ";
+        public string deadBlack = "Conquered Black Pieces: ";
+
         public ChessPiece[,] CreateChessboard()
         {
             ChessPiece[,] chessboard = new ChessPiece[8, 8];
@@ -59,7 +62,17 @@ namespace Chessgame
             }
             else if (!(chessboard[to.row, to.col] == null))
             {
-                throw new Exception("A chesspiece is already at the currently chosen 'to' coordinates");
+                if (chessboard[from.row, from.col].colour == chessboard[to.row, to.col].colour)
+                {
+                    throw new Exception("A chesspiece is already at the currently chosen 'to' coordinates");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{chessboard[to.row, to.col].colour} {chessboard[to.row, to.col].type} has been eliminated!");
+                    Console.ResetColor();
+                    DeadPieces(chessboard[to.row, to.col]);
+                }
             }
             else if (!ValidMove(chessboard[from.row, from.col], from, to))
             {
@@ -138,6 +151,18 @@ namespace Chessgame
                 turn = Turn.White;
             }
             return turn;
+        }
+
+        void DeadPieces(ChessPiece deadPiece)
+        {
+            if (deadPiece.colour == ChessPieceColour.White)
+            {
+                deadWhite += deadPiece.type + " ";
+            }
+            else
+            {
+                deadBlack += deadPiece.type + " ";
+            }
         }
     }
 }

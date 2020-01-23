@@ -40,9 +40,9 @@ namespace Chessgame
                 {
                     chessGame.CheckMove(chessboard, fromPos, toPos, turn);
                     chessGame.DoMove(chessboard, fromPos, toPos);
-                    
                     move++;
                     DisplayChessboard(chessboard);
+                    DisplayEliminatedPieces(chessGame);
                 }
                 catch (Exception error)
                 {
@@ -53,7 +53,7 @@ namespace Chessgame
 
         void DisplayChessboard(ChessPiece[,] chessboard)
         {
-            Console.WriteLine("   A  B  C  D  E  F  G  H");
+            Console.WriteLine("\n   A  B  C  D  E  F  G  H");
             for (int r = 0; r < chessboard.GetLength(0); r++)
             {
                 Console.Write(r + 1 + " ");
@@ -72,6 +72,7 @@ namespace Chessgame
                 }
                 Console.WriteLine();
             }
+            
         }
 
         void DisplayChessPiece(ChessPiece chessPiece)
@@ -133,6 +134,12 @@ namespace Chessgame
                 }
             } while (!correct);
             return userPos;
+        }
+
+        void DisplayEliminatedPieces(ChessGame chessGame)
+        {
+            Console.WriteLine(chessGame.deadWhite);
+            Console.WriteLine(chessGame.deadBlack);
         }
     }
 }
