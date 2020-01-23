@@ -16,24 +16,32 @@ namespace Chessgame
         }
 
         void Start()
-        {
+        { 
             ChessGame chessGame = new ChessGame();
             ChessPiece[,] chessboard = chessGame.CreateChessboard();
             chessGame.InitChessboard(chessboard);
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine("CONSOLE CHESS V1.1\n");
+            Console.ResetColor();
             DisplayChessboard(chessboard);
             PlayChess(chessboard, chessGame);
         }
 
         void PlayChess(ChessPiece[,] chessboard, ChessGame chessGame)
         {
+            int move = 1;
             while (true)
             {
+                Turn turn = chessGame.DetermineTurn(move);
+                Console.WriteLine($"{turn}'s turn");
                 Position fromPos = ReadPosition("Enter 'from' position: ");
                 Position toPos = ReadPosition("Enter 'to' position: ");
                 try
                 {
-                    chessGame.CheckMove(chessboard, fromPos, toPos);
+                    chessGame.CheckMove(chessboard, fromPos, toPos, turn);
                     chessGame.DoMove(chessboard, fromPos, toPos);
+                    
+                    move++;
                     DisplayChessboard(chessboard);
                 }
                 catch (Exception error)

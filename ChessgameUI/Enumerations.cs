@@ -15,4 +15,9 @@ namespace Chessgame
     {
         White, Black
     }
+
+    public enum Turn
+    {
+        White, Black
+    }
 }

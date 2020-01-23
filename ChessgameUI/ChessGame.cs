@@ -33,7 +33,7 @@ namespace Chessgame
 
             for (int c = 0; c < chessboard.GetLength(1); c++)
             {
-                chessboard[1, c] = new ChessPiece { colour = ChessPieceColour.White, type = ChessPieceType.Pawn };
+                chessboard[1, c] = new  ChessPiece { colour = ChessPieceColour.White, type = ChessPieceType.Pawn };
                 chessboard[6, c] = new ChessPiece { colour = ChessPieceColour.Black, type = ChessPieceType.Pawn };
             }
 
@@ -46,11 +46,12 @@ namespace Chessgame
 
         public void DoMove(ChessPiece[,] chessboard, Position from, Position to)
         {
+            chessboard[from.row, from.col].uses++;
             chessboard[to.row, to.col] = chessboard[from.row, from.col];
             chessboard[from.row, from.col] = null;
         }
 
-        public void CheckMove(ChessPiece[,] chessboard, Position from, Position to)
+        public void CheckMove(ChessPiece[,] chessboard, Position from, Position to, Turn turn)
         {
             if (chessboard[from.row, from.col] == null)
             {
@@ -68,6 +69,10 @@ namespace Chessgame
             {
                 throw new Exception("Coordinates out of bounds");
             }
+            else if ((turn == Turn.Black && chessboard[from.row, from.col].colour == ChessPieceColour.White) || (turn == Turn.White && chessboard[from.row, from.col].colour == ChessPieceColour.Black))
+            {
+                throw new Exception($"The {turn} player can only move pieces of colour {turn}");
+            }
         }
 
         public bool ValidMove(ChessPiece chessPiece, Position from, Position to)
@@ -79,6 +84,10 @@ namespace Chessgame
             {
                 case ChessPieceType.Pawn:
                     if (hor == 0 && ver == 1)
+                    {
+                        return true;
+                    }
+                    else if ((hor == 0 && ver == 2) && (chessPiece.uses == 0))
                     {
                         return true;
                     }
@@ -115,6 +124,20 @@ namespace Chessgame
                     break;
             }
             return false;
+        }
+
+        public Turn DetermineTurn(int move)
+        {
+            Turn turn;
+            if (move % 2 == 0)
+            {
+                turn = Turn.Black;
+            }
+            else
+            {
+                turn = Turn.White;
+            }
+            return turn;
         }
     }
 }

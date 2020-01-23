@@ -10,5 +10,6 @@ namespace Chessgame
     {
         public ChessPieceType type;
         public ChessPieceColour colour;
+        public int uses;
     }
 }
