@@ -30,7 +30,7 @@ namespace Chessgame
         void PlayChess(ChessPiece[,] chessboard, ChessGame chessGame)
         {
             int move = 1;
-            while (true)
+            while (chessGame.GameCheck(chessboard, move))
             {
                 Turn turn = chessGame.DetermineTurn(move);
                 Console.WriteLine($"{turn}'s turn");

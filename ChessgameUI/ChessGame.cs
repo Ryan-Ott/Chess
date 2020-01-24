@@ -171,5 +171,40 @@ namespace Chessgame
                 deadBlack += deadPiece.type + " ";
             }
         }
+
+        public bool GameCheck(ChessPiece[,] chessboard, int move)
+        {
+            int kings = 0;
+            for (int r = 0; r < chessboard.GetLength(0); r++)
+            {
+                for (int c = 0; c < chessboard.GetLength(1); c++)
+                {
+                    if (chessboard[r, c] != null && (chessboard[r, c].type == ChessPieceType.King))
+                    {
+                        kings++;
+                    }
+                }
+            }
+            if (kings == 2)
+            {
+                return true;
+            }
+            else
+            {
+                Turn winner = DetermineTurn(move);
+                if (winner == Turn.White)
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.WriteLine($"GAME OVER   -   {winner} wins");
+                return false;
+            }
+        }
     }
 }
