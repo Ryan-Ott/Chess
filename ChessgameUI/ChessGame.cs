@@ -74,7 +74,7 @@ namespace Chessgame
                     DeadPieces(chessboard[to.row, to.col]);
                 }
             }
-            else if (!ValidMove(chessboard[from.row, from.col], from, to))
+            else if (!ValidMove(chessboard, chessboard[from.row, from.col], from, to))
             {
                 throw new Exception("Move is invalid for this chesspiece");
             }
@@ -88,7 +88,7 @@ namespace Chessgame
             }
         }
 
-        public bool ValidMove(ChessPiece chessPiece, Position from, Position to)
+        public bool ValidMove(ChessPiece[,] chessboard, ChessPiece chessPiece, Position from, Position to)
         {
             int hor = Math.Abs(to.col - from.col);
             int ver = Math.Abs(to.row - from.row);
@@ -103,6 +103,13 @@ namespace Chessgame
                     else if ((hor == 0 && ver == 2) && (chessPiece.uses == 0))
                     {
                         return true;
+                    }
+                    else if (hor == 1 && ver == 1)
+                    {
+                        if ((chessPiece.colour != chessboard[to.row, to.col].colour) && (chessboard[to.row, to.col] != null))
+                        {
+                            return true;
+                        }
                     }
                     break;
                 case ChessPieceType.Rook:
